@@ -84,16 +84,16 @@ This skill is a plain file structure (`SKILL.md` + `references/` + `scripts/`). 
 
 ```bash
 # Claude Code
-git clone https://github.com/<your-name>/content-to-slides.git \
+git clone https://github.com/YoungXu06/content-to-slides.git \
   ~/.claude/skills/content-to-slides
 
 # CodeBuddy
-git clone https://github.com/<your-name>/content-to-slides.git \
+git clone https://github.com/YoungXu06/content-to-slides.git \
   ~/.codebuddy/skills/content-to-slides
 ```
 
 The bundled scripts auto-discover the skill directory under
-`~/.claude/skills`, `~/.claude-internal/skills`, `~/.codebuddy/skills`, `~/.config/skills`.
+`~/.claude/skills`, `~/.codebuddy/skills`, `~/.config/skills`.
 
 ---
 

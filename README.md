@@ -86,11 +86,11 @@ Agent 会自动：抓取内容 → 提炼精髓 → 设计大纲 → 生成 HTML
 
 ```bash
 # Claude Code
-git clone https://github.com/<your-name>/content-to-slides.git \
+git clone https://github.com/YoungXu06/content-to-slides.git \
   ~/.claude/skills/content-to-slides
 
 # CodeBuddy
-git clone https://github.com/<your-name>/content-to-slides.git \
+git clone https://github.com/YoungXu06/content-to-slides.git \
   ~/.codebuddy/skills/content-to-slides
 ```
 
@@ -99,7 +99,7 @@ git clone https://github.com/<your-name>/content-to-slides.git \
 把 `content-to-slides/` 目录拷贝到你项目的 skills 目录下，Agent 会自动发现并在匹配触发词时调用。
 
 > SKILL.md 中的脚本会自动在以下路径查找 skill 目录：
-> `~/.claude/skills`、`~/.claude-internal/skills`、`~/.codebuddy/skills`、`~/.config/skills`。
+> `~/.claude/skills`、`~/.codebuddy/skills`、`~/.config/skills`、...。
 
 ---
 
