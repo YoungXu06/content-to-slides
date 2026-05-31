@@ -16,7 +16,7 @@ This skill turns it into a **save / archive / share-ready short-video asset pack
 
 - **Archivable offline**: a single-file HTML + standard PDF, ready to store, no network service required.
 - **Instantly shareable**: every page of the 1440×1080 PDF is a ready-made image — drop in chats, knowledge bases, or re-edit freely.
-- **One step to a video**: read the per-slide speaker script aloud to record a short video, pair it with the social post, and publish to TikTok / YouTube / Bilibili / Xiaohongshu.
+- **One step to a video**: read the per-slide speaker script aloud to record a short video, pair it with the social post, and publish to TikTok / YouTube / Bilibili / Xiaohongshu. Want to skip recording entirely? Hand the HTML/PDF + script to the sister project [**PPTalker**](https://github.com/YoungXu06/pptalker-skill) to auto-add AI voiceover + subtitles and render a finished video.
 
 In one line: **turn "read-and-forget" long content into a "record-one-take-and-post" video asset.**
 
@@ -165,6 +165,24 @@ content-to-slides/
 | **Warm Dusk** | Warm / intimate / narrative | Terracotta + amber | Source Serif 4 + Noto Sans SC | Culture, history, humanities, personal essays |
 
 > All 5 themes use a highly readable refined dark background (optimized for short-video framing), but differ in color, typography, and mood — covering everything from rational tech to humanistic storytelling. Full CSS variables in [references/themes.md](./references/themes.md).
+
+---
+
+## Related project: turn slides into a narrated video 🔗
+
+This project **produces slides from scratch**; to make those slides actually "speak", hand off to the sister project [**PPTalker**](https://github.com/YoungXu06/pptalker-skill):
+
+```
+   one link / one article / one repo
+              │
+   content-to-slides (this project)  ──►  HTML / PDF deck  +  per-slide script (script.md)
+              │
+   PPTalker                          ──►  narrated video with AI voiceover + subtitles
+              │
+        publish to TikTok / YouTube / Bilibili / Xiaohongshu / archive
+```
+
+[**PPTalker**](https://github.com/YoungXu06/pptalker-skill) takes this project's `presentation.html` / `output.pdf` directly as input, and the `script.md` can be reused as the per-slide notes — no screen recording, no lip-sync. It auto-adds AI voiceover and synced subtitles and renders a finished video, together forming a complete "content → slides → narrated video" pipeline.
 
 ---
 
