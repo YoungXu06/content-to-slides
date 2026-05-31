@@ -1,0 +1,36 @@
+# ── Generated output ──────────────────────────────
+content-to-slides-output/
+*-output/
+presentation.html
+output.pdf
+script.md
+transcript.txt
+repo-analysis.md
+
+# ── PDF / screenshots ─────────────────────────────
+*.pdf
+screenshots/
+slide-*.png
+
+# ── Node / Playwright (temp install during export) ─
+node_modules/
+package-lock.json
+.playwright/
+
+# ── Python ────────────────────────────────────────
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# ── OS / Editor ───────────────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# ── Temp ──────────────────────────────────────────
+tmp/
+*.tmp
+*.log
