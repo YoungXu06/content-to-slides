@@ -1,6 +1,6 @@
 # Theme Presets
 
-5 dark-background themes for portrait short-video slides. Each theme provides complete CSS custom properties consumed by the HTML template in [slide-design.md](slide-design.md).
+5 dark-background themes for landscape 4:3 short-video slides. Each theme provides complete CSS custom properties consumed by the HTML template in [slide-design.md](slide-design.md). Select the theme before final generation; its visual mood does not override the natural, objective narration rules.
 
 ## Table of Contents
 
@@ -20,7 +20,7 @@
 |-------------|-------|-------------|
 | 科普 / 理性 / 技术研究 | Deep Ocean | 论文, 研究, 技术, AI, 数据, 实验, 模型, 算法 |
 | 哲学 / 思维模型 / 策略 | Midnight Gold | 思维, 认知, 战略, 哲学, 智慧, 心理, 心智 |
-| 犀利 / 争议 / 趋势预测 | Electric Dark | 颠覆, 争议, 未来, 反常识, 预测, 趋势 |
+| 犀利 / 争议 / 趋势预测 | Electric Dark | 颠覆, 争议, 未来, 前沿, 预测, 趋势 |
 | 自然 / 健康 / 可持续 | Forest Night | 健康, 自然, 可持续, 环境, 生活, 运动 |
 | 叙事 / 文化 / 人文情感 | Warm Dusk | 故事, 文化, 历史, 情感, 人文, 人生 |
 

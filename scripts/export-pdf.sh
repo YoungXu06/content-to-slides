@@ -319,7 +319,7 @@ echo ""
 cd "$TEMP_DIR"
 
 cat > "$TEMP_DIR/package.json" << 'PKG'
-{ "name": "slide-export-portrait", "private": true, "type": "module" }
+{ "name": "slide-export-landscape", "private": true, "type": "module" }
 PKG
 
 npm install playwright &>/dev/null || {
@@ -340,11 +340,11 @@ echo ""
 
 SCREENSHOT_DIR="$TEMP_DIR/screenshots"
 
-info "Exporting portrait slides to PDF..."
+info "Exporting landscape 4:3 slides to PDF..."
 echo ""
 
 if [[ "$COMPACT" == "true" ]]; then
-    info "Using compact mode (720×1280) for smaller file size"
+    info "Using compact mode (${VIEWPORT_W}×${VIEWPORT_H}) for smaller file size"
 fi
 
 node "$TEMP_SCRIPT" "$SERVE_DIR" "$HTML_FILENAME" "$OUTPUT_PDF" "$SCREENSHOT_DIR" "$VIEWPORT_W" "$VIEWPORT_H" || {
@@ -370,9 +370,3 @@ echo ""
 echo "  Ready for sharing and video production."
 echo -e "${BOLD}════════════════════════════════════════════${NC}"
 echo ""
-
-if command -v open &>/dev/null; then
-    open "$OUTPUT_PDF"
-elif command -v xdg-open &>/dev/null; then
-    xdg-open "$OUTPUT_PDF"
-fi

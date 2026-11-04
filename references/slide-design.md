@@ -45,13 +45,16 @@ Conversion reference (based on 1440px PDF canvas):
 - 1vw = 14.4px on PDF canvas
 - Example: `3.5vw` = 50px on PDF → proportionally identical at any viewport size
 
-Rules:
-- Each slide = full viewport height, **no scrolling within a slide**
-- All styles inline in single HTML file — all units in vw/vh
-- Max 2 columns for cards/metrics (3 allowed only for small number metrics)
-- Single column for info boxes and text blocks
-- Content must fill at least 70% of slide area — if too sparse, add detail or merge with adjacent slide
-- Content must not overflow — if it does, split into two slides
+Rules (apply before generating final files):
+- Each slide = full viewport height, **no scrolling within a slide**.
+- All styles inline in one HTML file; content sizes and spacing use vw/vh. Zero resets, unitless line heights and 1px decorative borders are allowed; fixed px font sizes are not.
+- Max 2 columns for text cards and steps; 3 metrics allowed only for short numbers with short labels.
+- Single column for info boxes and text blocks.
+- Choose content capacity in the shared page plan: one main component, title at most two lines, and spare vertical room of roughly two body-text lines. Intentional whitespace is allowed, especially on opening and closing slides; there is no minimum fill ratio.
+- Default to 3–4 bullets with at most two lines each, or five one-line bullets. Do not combine dense bullets with a long info box. Cards have short titles and at most two description lines; move explanations to narration during planning.
+- Follow the pre-generation capacity budget and component diversity rules in `SKILL.md`. Final generation uses the locked plan; do not add a render-review, split/merge, resize or rewrite loop.
+- `overflow: hidden` is not proof that content fits. Budget text before generation rather than discovering clipped text through repeated screenshots.
+- These limits concern visible slide text only. Narration uses complete spoken sentences and necessary logical connections; it is not restricted to the brevity of slide labels.
 
 ---
 
@@ -76,7 +79,7 @@ All font sizes in vw so they scale proportionally at any viewport width.
 ### Line Heights
 
 - Titles: 1.25
-- Body: 1.55
+- Body: 1.5 (card text uses its template-specific 1.45)
 - Metrics: 1.0
 - Tags: 1.0
 
@@ -302,7 +305,7 @@ Final slide — quote + takeaway + CTA.
 
 ### 10. Step Flow
 
-Horizontal numbered steps for processes, stages, evolution. Max 3–4 steps.
+Numbered steps for processes, stages and evolution. Maximum four steps in a two-column grid, read in number order. Do not lay out three or four text cards horizontally. Keep each description within two lines during planning; arrow elements in the example are hidden by the template CSS.
 
 ```html
 <div class="slide" data-slide="8">
@@ -511,7 +514,7 @@ Full base structure. Claude fills in `{{THEME_VARS}}`, `{{GOOGLE_FONTS_URL}}`, `
 <style>
 /* === Reset === */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { font-size: 16px; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+html { font-size: 1.111vw; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 /* === Theme === */
 :root {
@@ -612,12 +615,12 @@ strong { color: var(--text-primary); font-weight: 700; }
 .closing-cta p { font-size: 2.1vw; font-weight: 500; }
 
 /* === Step Flow === */
-.step-flow { display: flex; align-items: flex-start; gap: 1.5vw; }
-.step { flex: 1; background: var(--bg-card); border: 1px solid var(--divider); border-radius: 1.2vw; padding: 2vw; }
+.step-flow { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: stretch; gap: 1.5vw; }
+.step { min-width: 0; background: var(--bg-card); border: 1px solid var(--divider); border-radius: 1.2vw; padding: 2vw; }
 .step-num { font-size: 3.5vw; font-weight: 800; font-family: var(--font-heading); margin-bottom: 1vh; }
 .step h3 { font-size: 2.2vw; margin-bottom: 0.8vh; }
 .step p { font-size: 2vw; line-height: 1.45; font-weight: 500; }
-.step-arrow { font-size: 2.5vw; color: var(--text-secondary); display: flex; align-items: center; padding-top: 2vw; font-weight: 700; }
+.step-arrow { display: none; }
 
 /* === Split Text === */
 .split-text { display: flex; gap: 2vw; align-items: flex-start; }

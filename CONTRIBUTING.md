@@ -8,10 +8,10 @@
 
 | 路径 | 职责 | 改动时注意 |
 |------|------|-----------|
-| `SKILL.md` | 主入口：触发词、工作流、硬规则 | 改流程必须同步更新对应 Phase 和「Common Failure Modes」表 |
-| `references/slide-design.md` | 组件库 + HTML 模板 | 新增/改组件必须在此定义完整 CSS，不能让其他文档引用未定义的类 |
+| `SKILL.md` | 主入口：触发词、工作流、单次输出协议 | 改流程同步对应 Phase、中英文 README 及排障边界 |
+| `references/slide-design.md` | 组件库 + HTML 模板 + 前置容量 | 新增/改组件同时定义 CSS 与容量规则，不引入默认截图审阅循环 |
 | `references/themes.md` | 主题预设 | 新增主题需在此注册全部 CSS 变量 |
-| `references/voice.md` | 讲稿语气规则 | 改禁用词 / 语气时同步 SKILL.md Phase 6 的自检清单 |
+| `references/voice.md` | 自然口播、客观视角、章节承接、TTS | 语言细则集中在此，SKILL.md 只保留原则；不重复扩展禁词表或加入字数、代词硬配额 |
 | `references/ingestion.md` | 抓取策略 | 新增链接类型需给出抓取 + fallback 双策略 |
 | `references/summarization.md` | 提炼方法论 | — |
 | `scripts/*.sh` `*.py` | 可执行工具 | 必须兼容 macOS 与 Linux；依赖缺失要有清晰报错或自动安装 |
@@ -20,9 +20,11 @@
 
 ## 提交前自检
 
+这里是维护 Skill 的开发验证，不是每次生成 PPT 后的审阅流程，不得将这些测试追加到创作工作流。
+
 ### 1. 组件 / 主题改动
-- 新增组件：在 `slide-design.md` 同时补齐 HTML 结构 **和** 全部 CSS 类，并在 SKILL.md Phase 3 的「内容类型 → 推荐组件」表中登记。
-- 新增主题：在 `themes.md` 注册全套 CSS 变量，并在 SKILL.md Phase 4「内容情绪 → 主题」表中登记。
+- 新增组件：在 `slide-design.md` 同时补齐 HTML、CSS 和前置容量预算，与 SKILL.md Phase 3 的选型规则一致。
+- 新增主题：在 `themes.md` 注册全套 CSS 变量，仍在 Phase 2 选定，不新增生成后换主题步骤。
 - 不要让 `SKILL.md` / `themes.md` 引用 `slide-design.md` 中不存在的类。
 
 ### 2. 脚本改动
@@ -32,7 +34,7 @@
 - 跨平台：`uname` 区分 Darwin / Linux 分支。
 
 ### 3. 硬规则一致性
-本 skill 有若干「🔴 硬规则」（vw 单位、≤2 栏、5–10 页、讲稿纯文本、布局多样性）。任何改动不得削弱这些规则；如确需调整，请在 PR 描述里说明理由。
+保持 5–10 页、讲稿纯文本、布局多样性和 vw/vh 内容尺寸。文字卡片与流程最多两列，只有短数字指标允许三列；零值 reset、无单位行高和 1px 装饰边框例外与模板一致。质量约束在生成前落实，不追加成品审阅返工循环。自然讲稿保留主语、条件、连接和必要解释，不设单句字数或代词次数硬门槛。
 
 ---
 

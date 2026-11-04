@@ -49,7 +49,7 @@ Summarize this video into a deck: <YouTube / Bilibili URL>
 Make a project overview deck for this repo: <github.com/owner/repo>
 ```
 
-The agent will automatically: fetch content → distill the essence → design an outline → generate HTML → export PDF → write the speaker script.
+The agent will automatically: fetch source and load rules → build a shared page plan → generate narration and HTML once → export PDF once → deliver directly.
 
 ---
 
@@ -71,10 +71,12 @@ The agent will automatically: fetch content → distill the essence → design a
 
 1. **Capture the essence, not the wording** — answer "what is this really about" in one sentence first.
 2. **5–10 page hard limit** — fewer than 5 has no substance, more than 10 isn't short-video pacing.
-3. **The script must sound like a real expert** — a practitioner explaining one thing to a knowledgeable friend.
-4. **Self-contained HTML** — 15 built-in components + 5 distinct theme templates, no external skill dependency.
-5. **Landscape 4:3 + large readable text + click-to-flip** — all sizes in vw/vh units so HTML and PDF match exactly; no visible buttons.
-6. **Chinese-first** — slides and script default to Chinese (proper nouns stay English); opt into English on request.
+3. **Objective, natural, non-preachy narration** — explain facts in complete spoken sentences. Avoid rhetorical packaging such as "counterintuitively", "not A but B", and "what's worse is". Remove tangents, not subjects, conditions or causal connections.
+4. **Written for TTS, with natural continuity** — slides and narration share a page plan following the listener's understanding. Allow useful pronouns and connective words; no pronoun quotas, rigid short-sentence limits or mandatory hooks on every slide.
+5. **Plan first, generate once, deliver on success** — decide content, capacity and spoken forms before writing. Generate HTML and script once and export PDF once. No artifact rereading, banned-word scans, screenshot review or rewrite loops. Report execution failures honestly instead of regenerating automatically.
+6. **Self-contained HTML** — 15 built-in components + 5 distinct theme templates, no external skill dependency.
+7. **Landscape 4:3 + large readable text + click-to-flip** — all sizes in vw/vh units so HTML and PDF match exactly; no visible buttons.
+8. **Chinese-first** — slides and script default to Chinese (proper nouns stay English); opt into English on request.
 
 ---
 
@@ -114,13 +116,12 @@ Plain text content (articles / markdown) needs no extra dependencies.
 
 ```
 Phase 1   Confirm input & goal
-Phase 2   Fetch & deeply understand the source
-Phase 3   Design a 5–10 page outline + pick components
-Phase 4   Generate HTML slides (self-contained)
-Phase 5   Export PDF
-Phase 6   Write per-slide speaker script
-Phase 6.5 Write social media post
-Phase 7   Deliver
+Phase 2   Fetch source, load rules, understand content
+Phase 3   Build a shared page plan (content, narration, components, capacity)
+Phase 3.5 Confirm once before generation and lock the plan
+Phase 4   Generate narration, social post and HTML from the shared plan
+Phase 5   Export PDF once
+Phase 7   Deliver directly
 ```
 
 See [SKILL.md](./SKILL.md) for full details.
@@ -142,7 +143,7 @@ content-to-slides/
 │   ├── summarization.md              # 5-question skeleton: distill core arguments
 │   ├── slide-design.md               # 4:3 component library + layout rules + HTML template
 │   ├── themes.md                     # 5 theme template presets (palette / fonts / mood)
-│   └── voice.md                      # Speaker-script tone rules + banned words
+│   └── voice.md                      # Writing contract + AI-tics blacklist + objectivity + continuity
 └── scripts/                          # Executable tools
     ├── export-pdf.sh                 # PDF export (1440×1080 4:3)
     ├── fetch-youtube-transcript.sh   # Auto YouTube transcript download
