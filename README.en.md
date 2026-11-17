@@ -85,6 +85,10 @@ The agent will automatically: fetch source and load rules → build a shared pag
 This skill is a plain file structure (`SKILL.md` + `references/` + `scripts/`). Drop the directory into your agent's skills search path.
 
 ```bash
+# Codex
+git clone https://github.com/YoungXu06/content-to-slides.git \
+  ~/.codex/skills/content-to-slides
+
 # Claude Code
 git clone https://github.com/YoungXu06/content-to-slides.git \
   ~/.claude/skills/content-to-slides
@@ -93,6 +97,9 @@ git clone https://github.com/YoungXu06/content-to-slides.git \
 git clone https://github.com/YoungXu06/content-to-slides.git \
   ~/.codebuddy/skills/content-to-slides
 ```
+
+> The directory name is up to you, but it must contain `SKILL.md`. Update with
+> `git -C <dir> pull`.
 
 The bundled scripts auto-discover the skill directory under
 `~/.claude/skills`, `~/.codebuddy/skills`, `~/.config/skills`.
@@ -169,6 +176,40 @@ content-to-slides/
 
 ---
 
+## Component library
+
+15 built-in 4:3 components: Title Slide, Content Slide, Card Grid, VS Comparison, Metric Display, Info Box, Quote Block, Key Insight, Closing Slide, Step Flow, Split Text, Icon List, Highlight Banner, Formula Slide, Formula + Explanation.
+
+Hard layout rule: never run more than 2 consecutive pages of the same component, and use at least 5 different components for decks of 8+ pages. Details in [references/slide-design.md](./references/slide-design.md).
+
+---
+
+## Example requests
+
+```
+Turn this article into an explainer deck + script: https://example.com/some-article
+Build a 5-10 page explainer for practitioners: <link>
+Turn the essence of this video into a short-video script: https://youtu.be/xxxxxxxxxxx
+Make a project overview deck for this repo: https://github.com/owner/repo
+```
+
+---
+
+## FAQ
+
+**Q: The PDF text is too small / differs from the HTML.**
+A: Check for fixed `px` or `clamp()` — everything must use `vw` units. `export-pdf.sh` renders at a fixed 1440×1080.
+
+**Q: No transcript found for the video.**
+A: Confirm subtitles are enabled on the video; installing `deno` improves `yt-dlp` success. If it still fails, copy the text from the video's "show transcript" panel and paste it to the agent.
+
+**Q: Can it output English?**
+A: Yes — say "output in English" in your request. Chinese is the default.
+
+More failure modes and fixes are in the "Common Failure Modes" table at the end of [SKILL.md](./SKILL.md).
+
+---
+
 ## Related project: turn slides into a narrated video 🔗
 
 This project **produces slides from scratch**; to make those slides actually "speak", hand off to the sister project [**PPTalker**](https://github.com/YoungXu06/pptalker-skill):
@@ -184,6 +225,16 @@ This project **produces slides from scratch**; to make those slides actually "sp
 ```
 
 [**PPTalker**](https://github.com/YoungXu06/pptalker-skill) takes this project's `presentation.html` / `output.pdf` directly as input, and the `script.md` can be reused as the per-slide notes — no screen recording, no lip-sync. It auto-adds AI voiceover and synced subtitles and renders a finished video, together forming a complete "content → slides → narrated video" pipeline.
+
+After this skill finishes, tell your agent:
+
+```
+Make a video from content-to-slides-output/<project>/presentation.html,
+using script.md in the same folder as the notes, Chinese voiceover
+```
+
+You get back the PPTalker watch page. It is private by default — only you can
+watch it while signed in. To share, publish the video from that page.
 
 ---
 

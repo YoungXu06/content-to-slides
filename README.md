@@ -87,6 +87,10 @@ Agent 会自动：获取来源与规则 → 建立共同的逐页规划 → 一�
 ### 方式一：克隆到 skills 目录（推荐）
 
 ```bash
+# Codex
+git clone https://github.com/YoungXu06/content-to-slides.git \
+  ~/.codex/skills/content-to-slides
+
 # Claude Code
 git clone https://github.com/YoungXu06/content-to-slides.git \
   ~/.claude/skills/content-to-slides
@@ -95,6 +99,8 @@ git clone https://github.com/YoungXu06/content-to-slides.git \
 git clone https://github.com/YoungXu06/content-to-slides.git \
   ~/.codebuddy/skills/content-to-slides
 ```
+
+> 目录名随意，但必须包含 `SKILL.md`。更新用 `git -C <目录> pull`。
 
 ### 方式二：直接放进项目内
 
@@ -232,6 +238,16 @@ A：可以，在请求中明确说「输出英文」即可，默认是中文优�
 ```
 
 [**PPTalker**](https://github.com/YoungXu06/pptalker-skill) 把本项目产出的 `presentation.html` / `output.pdf` 直接作为输入，`script.md` 讲稿也可直接复用——无需录屏、无需对口型，自动配 AI 语音和同步字幕，一键渲染成片。两者组成「内容 → 幻灯片 → 讲解视频」完整流水线。
+
+跑完本项目后，接着对 Agent 说：
+
+```
+用 content-to-slides-output/<项目>/presentation.html 做视频，
+讲稿用同目录的 script.md，中文配音
+```
+
+返回的是 PPTalker 网页播放页（默认私有，仅你自己登录可看）；要分享给别人，
+在播放页把视频设为公开即可。
 
 ---
 
