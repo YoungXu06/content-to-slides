@@ -31,6 +31,7 @@
 | `presentation.html` | 横屏 4:3 HTML slides（5 套主题任选），单文件，浏览器打开点击翻页 |
 | `output.pdf` | 1440×1080 横屏 4:3 PDF，与 HTML 布局完全一致，可直接分享 / 录视频 |
 | `script.md` | 每页对应的口播讲稿 + 末尾社媒帖文，专业口吻，可直接录制和发布 |
+| `images/`（可选） | 从来源抓取的架构图、流程图、指标图等说明性图片 + `manifest.json`（记录所属章节，用于避免图文错位） |
 
 ---
 
@@ -74,7 +75,7 @@ Agent 会自动：获取来源与规则 → 建立共同的逐页规划 → 一�
 3. **讲稿客观、自然、不说教** —— 用完整口语解释事实。「不是A，而是B」「真正的X是Y」这类否定—重定义句式整篇最多 1 次，其余一律用具体事实正面陈述；「反直觉的是」「更狠的是」等夸张包装不用。简洁要减少枝节，不能省略主语、条件和因果。
 4. **讲稿为 TTS 而生，自然连贯** —— 页面与讲稿共用逐页规划，按听众理解顺序展开。允许必要的「你」「我们」「如果」「但」「所以」，不设代词配额和短句阈值，不强制每页留悬念。
 5. **前置规划，单次输出，成功即交付** —— 生成前一次确定内容、容量和读法；HTML 与讲稿各生成一次，PDF 导出一次。不安排成品回读、禁词扫描、截图审阅或润色重写循环。运行失败如实报告，不自动推倒重来。
-6. **自主生成 HTML** —— 内置 15 种组件库 + 5 套各具气质的主题模板，不委托任何外部 skill。
+6. **自主生成 HTML** —— 内置 17 种组件库（含 2 个配图组件）+ 5 套各具气质的主题模板，不委托任何外部 skill。
 7. **横屏 4:3 + 大字可读 + 点击翻页** —— 所有尺寸用 vw/vh 单位，保证浏览器和 PDF 上比例完全一致；无可见按钮，点击翻页。
 8. **中文优先** —— Slides 和讲稿统一中文（专有名词保留英文），用户要求英文时例外。
 
@@ -184,7 +185,7 @@ content-to-slides/
 
 ## 组件库
 
-内置 15 种 4:3 组件：Title Slide、Content Slide、Card Grid、VS Comparison、Metric Display、Info Box、Quote Block、Key Insight、Closing Slide、Step Flow、Split Text、Icon List、Highlight Banner、Formula Slide、Formula + Explanation。
+内置 17 种 4:3 组件：Title Slide、Content Slide、Card Grid、VS Comparison、Metric Display、Info Box、Quote Block、Key Insight、Closing Slide、Step Flow、Split Text、Icon List、Highlight Banner、Formula Slide、Formula + Explanation、Figure Split（图文分栏）、Figure Full（单图全幅）。
 
 布局多样性硬规则：禁止连续 2 页以上同类型组件，8 页以上必须用 ≥5 种组件。详见 [references/slide-design.md](./references/slide-design.md)。
 
@@ -243,9 +244,13 @@ A：可以，在请求中明确说「输出英文」即可，默认是中文优�
 跑完本项目后，接着对 Agent 说：
 
 ```
-用 content-to-slides-output/<项目>/presentation.html 做视频，
+用 content-to-slides-output/<项目>/output.pdf 做视频，
 讲稿用同目录的 script.md，中文配音
 ```
+
+**优先用 `output.pdf`，不要用 `presentation.html`。** 本项目已经把 HTML 渲染成
+PDF，图片也已包含在里面；直接传 PDF 可以跳过服务端逐页渲染（每页 1–5 秒，
+页数多时容易超时）。
 
 返回的是 PPTalker 网页播放页（默认私有，仅你自己登录可看）；要分享给别人，
 在播放页把视频设为公开即可。

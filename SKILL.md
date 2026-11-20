@@ -12,6 +12,7 @@ description: Turn an article, video, GitHub repository or long-form content into
 - `presentation.html`：单文件暗色 HTML slides，点击翻页，页面顺序固定。
 - `output.pdf`：用自带脚本导出横屏 4:3 PDF，默认画布 1440×1080。
 - `script.md`：与页面编号、标题和事实对应的逐页口播，加末尾社媒帖文。口播正文直接用于 TTS，其他结构不朗读。
+- `images/`（可选）：来源里的架构图、流程图、指标图等说明性图片，配合 `manifest.json` 记录所属章节。没有合适图片时不生成。
 
 ## 执行协议：前置规划，单次输出，成功即交付
 
@@ -33,7 +34,7 @@ description: Turn an article, video, GitHub repository or long-form content into
 - 讲稿是自然的解释，不是压缩摘要。保留主语、条件、因果和必要术语说明，避免电报式碎句。
 - 客观不等于冷淡。可以自然使用“你”“我们”“如果”“但”“所以”“也就是说”，不限制次数；不训导听众，不煽动，不编造事实。
 - 默认不使用“不是A，而是B”“真正的X是Y”“反直觉的是”“更狠的是”等否定—重定义或夸张包装：整篇最多 1 次，且有依据才用。具体语言原则和改写示例见 [references/voice.md](references/voice.md)，不重复扩展禁词表。
-- 复用现有 15 种组件与 5 套主题。页面字体、间距和内容尺寸使用 vw/vh，禁止 `clamp()` 和固定 px 字号，不通过缩小正文塞入超量内容。
+- 复用现有 17 种组件（含图文分栏、单图全幅）与 5 套主题。页面字体、间距和内容尺寸使用 vw/vh，禁止 `clamp()` 和固定 px 字号，不通过缩小正文塞入超量内容。
 - 5–10 页是交付范围，不能为了凑页数补造事实；材料不足时在生成前说明。
 
 ## 工作流
@@ -100,6 +101,16 @@ bash "<skill-dir>/scripts/fetch-github-repo.sh" "<GitHub-URL>" "<输出目录>"
 
 成功后读取 `repo-analysis.md`；失败按 ingestion.md 的 fallback 处理。讲项目时优先说明问题、架构、功能、使用方式和有证据的差异，不把 README 宣传词当成比较结果。
 
+说明性图片（可选）：
+
+```bash
+python3 "<skill-dir>/scripts/fetch-images.py" "<来源 URL 或本地文件>" "<输出目录>" --max 6
+```
+
+得到 `images/manifest.json`。每项的 `section` / `context` 决定它能配到哪一页，
+规则见 [ingestion.md](references/ingestion.md) 的「图文对应」。抓不到图是正常情况，
+继续按纯文字生成，不停下也不追问。
+
 **没有实质文本就停止并索要材料，不凭标题、摘要或项目名称编内容。** 在本阶段确认事实、假设、结论与限制；疑点不能留到生成后再修改。
 
 ## Phase 3: 共同的逐页规划
@@ -114,6 +125,7 @@ bash "<skill-dir>/scripts/fetch-github-repo.sh" "<GitHub-URL>" "<输出目录>"
 | 讲稿内容 | 谁在做什么、为什么、术语如何解释；不只是照读条目 |
 | 页间关系 | 与前页的因果、例子、步骤、比较或范围联系；不强制造因果 |
 | 组件与容量 | 选定现有组件、栏数、条目数和预计行数 |
+| 配图 | 这一页是否用图、用 manifest 里的哪一张、支撑哪句话；没有匹配就留空 |
 | TTS 读法 | 名称、数字、单位、公式的口语表达，保留准确含义 |
 
 常见理解顺序：场景或问题 → 必要概念 → 机制与依据 → 例子或结果 → 限制与结论。按材料选择 5–10 页，不强制单列“关键判断”“行动”“金句”页。
@@ -193,6 +205,9 @@ bash "<skill-dir>/scripts/fetch-github-repo.sh" "<GitHub-URL>" "<输出目录>"
 - 字体与内容间距使用 vw/vh；字体回退保留中文系统字体。不要另创需要调试的新布局系统。
 - 点击左侧 40% 上一页、右侧 60% 下一页，支持方向键、Space、Home、End 和触摸滑动；没有可见按钮及底部页码条。
 - 数学式使用 KaTeX 的 display 或 inline 写法，密度遵守规划。
+- 配图只用 `images/` 下的本地相对路径（`<img src="images/01-xxx.png">`），
+  不写原始外链；`object-fit: contain` 保持比例，不裁切、不拉伸。图注用来源的
+  `caption`，不自己编。每页最多一张主图，且必须与规划里的配图决定一致。
 
 写完即进入导出，**不回读 HTML、截图巡视、调整字号、增删页、重新写稿或安排验收任务**。
 
@@ -219,13 +234,14 @@ bash "<skill-dir>/scripts/export-pdf.sh" "<输出目录>/presentation.html" "<�
 | [references/ingestion.md](references/ingestion.md) | 来源获取与 fallback | Phase 2 |
 | [references/summarization.md](references/summarization.md) | 核心、证据和逐页推理 | Phase 2 |
 | [references/voice.md](references/voice.md) | 自然口播、亲和性、承接、TTS | Phase 2，生成前加载 |
-| [references/slide-design.md](references/slide-design.md) | 15 种组件与模板、前置容量 | Phase 2，生成前加载 |
+| [references/slide-design.md](references/slide-design.md) | 17 种组件（含 2 个配图组件）与模板、前置容量 | Phase 2，生成前加载 |
 | [references/themes.md](references/themes.md) | 5 套主题与字体 | Phase 2，生成前确定 |
 | [scripts/fetch-youtube-transcript.sh](scripts/fetch-youtube-transcript.sh) | 下载 YouTube 字幕 | Phase 2 按来源调用 |
 | [scripts/fetch-github-repo.sh](scripts/fetch-github-repo.sh) | 获取仓库分析 | Phase 2 按来源调用 |
 | [scripts/parse_transcript.py](scripts/parse_transcript.py) | VTT/SRT 转文本 | 获取脚本调用 |
 | [scripts/export-pdf.sh](scripts/export-pdf.sh) | 截图合成 PDF，不审稿 | Phase 5 单次调用 |
 | [scripts/check_voice.py](scripts/check_voice.py) | 统计否定—重定义句式用量 | 仅人工抽查 / 排障，不进入默认流程 |
+| [scripts/fetch-images.py](scripts/fetch-images.py) | 抓取说明性图片并标注章节归属 | Phase 2 按来源调用 |
 
 ## 排障边界
 

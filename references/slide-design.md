@@ -469,6 +469,92 @@ Content rules:
 - Right column: 3–5 lines of symbol explanations, each line can use inline `$...$`
 - Keep explanations concise — this is a visual reference, not a textbook
 
+### 16. Figure Split（图文左右分栏）
+
+一张说明性图片 + 解释文字。用于架构图、流程图、指标曲线这类"看了图才理解"的内容。
+**一页最多一张主图。**
+
+```html
+<div class="slide" data-slide="6">
+  <div class="page-num">07</div>
+  <div class="slide-content">
+    <h2>请求如何走完 <span class="accent-1">整条链路</span></h2>
+    <div class="figure-split">
+      <figure class="figure-main">
+        <img src="images/01-architecture.png" alt="整体架构：网关、路由、推理服务">
+        <figcaption>图 1：整体架构</figcaption>
+      </figure>
+      <div class="figure-notes">
+        <p>网关只做鉴权与限流，不参与模型选择。</p>
+        <p>路由服务按成本和负载决定实际调用哪个模型。</p>
+        <p>推理服务对外不可见，调用方只能看到最终回答。</p>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+Content rules:
+- `images/...` 必须是本地相对路径（`fetch-images.py` 下载到输出目录），不要写原始 URL
+- 图注（`figcaption`）保留来源的原始说明，不自己编
+- 右侧 2–4 句，说明图上**看得到**的东西；不引入图上没有的结论
+- 图片所属章节必须与本页主题一致（见 [ingestion.md](ingestion.md) 的图文对应规则）
+
+### 17. Figure Full（单图全幅）
+
+一张信息密度高、需要看清细节的图（复杂架构、指标面板、对比表）。文字只保留标题与一句结论。
+
+```html
+<div class="slide" data-slide="7">
+  <div class="page-num">08</div>
+  <div class="slide-content slide-center">
+    <h2>延迟随并发上升，<span class="accent-1">拐点在 32 并发</span></h2>
+    <figure class="figure-full">
+      <img src="images/02-benchmark.png" alt="延迟与并发的对比曲线">
+      <figcaption>图 2：不同并发下的 P99 延迟</figcaption>
+    </figure>
+  </div>
+</div>
+```
+
+Content rules:
+- 只放一张图，不并排第二张
+- 标题写**这张图说明了什么**，不是"某某图"
+- 不留正文段落；需要解释超过一句时改用 Figure Split
+
+### 图片组件的通用约束
+
+```css
+.figure-split { display: grid; grid-template-columns: 1.15fr 1fr; gap: 4vw; align-items: center; flex: 1; min-height: 0; }
+.figure-main, .figure-full { margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 0; width: 100%; height: 100%; gap: 1.2vh; }
+.figure-main img, .figure-full img { flex: 0 1 auto; }
+.figure-main img, .figure-full img {
+  max-width: 100%; max-height: 100%; width: auto; height: auto;
+  object-fit: contain;            /* 保持原始比例，绝不拉伸 */
+  border-radius: 0.6vw; background: var(--bg-card);
+}
+.figure-split .figure-main img { max-height: 52vh; }
+.figure-full img { max-height: 58vh; }
+.figure-full { height: auto; max-height: 100%; }
+.figure-notes { display: flex; flex-direction: column; justify-content: center; gap: 2vh; align-self: center; }
+.figure-split { flex: 1 1 auto; min-height: 0; }
+.figure-full { flex: 0 1 auto; }
+figcaption { font-size: 1.5vw; color: var(--text-secondary); text-align: center; line-height: 1.5; }
+```
+
+- **`object-fit: contain` 是硬要求**：`cover` 会裁掉图边缘，架构图裁掉一个框就读不懂了。
+- 图宽高比与容器不匹配时，靠 `max-height` 收窄，不要改宽度去凑满。
+- 不写 `background-image` 当图用；`background-size: cover` 同样会裁切。
+- 图片体积：单张 ≤ 1.5 MB，全篇 ≤ 6 张。超过时压缩尺寸，不降低到模糊。
+- 图文分栏时，图和文字都靠 `align-items: center` 在**垂直方向对齐**；不要用
+  `align-items: start`，否则短文字会贴在顶部、与图产生错位感。
+- `Figure Full` 的容器高度设为 `auto` 并限 `max-height`，让内容在 `.slide-content`
+  的 `justify-content: center` 下居中；把容器写成 `height: 100%` 会让图片顶到上方、
+  下方留出大片空白。
+- `Figure Split` 用 `flex: 1` 撑满标题以下的剩余高度，再由 `align-items: center`
+  把图和文字在剩余空间里垂直居中。图片高度受 `max-height: 52vh` 约束，不要为了
+  填满容器而放大——留白比裁切安全。
+
 ### Inline Math in Any Component
 
 Any component (Content Slide, Icon List, Card Grid, etc.) can include inline math using `$...$` delimiters. Examples:

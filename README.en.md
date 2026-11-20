@@ -31,6 +31,7 @@ One invocation, three ready-to-use deliverables:
 | `presentation.html` | Landscape 4:3 HTML slides (5 themes to choose from), single file, click to flip pages |
 | `output.pdf` | 1440×1080 landscape 4:3 PDF, layout identical to the HTML, ready to share / record |
 | `script.md` | Per-slide speaker script + social media post, professional voice, ready to record |
+| `images/` (optional) | Explanatory figures pulled from the source — architecture, flow, metric charts — plus `manifest.json` recording which section each belongs to |
 
 ---
 
@@ -74,7 +75,7 @@ The agent will automatically: fetch source and load rules → build a shared pag
 3. **Objective, natural, non-preachy narration** — explain facts in complete spoken sentences. The negation-then-redefinition family ("not A but B", "what X really is, is Y") is capped at one use per script; everywhere else, state the fact directly. Skip hype packaging ("counterintuitively", "what's worse is"). Remove tangents, not subjects, conditions or causal connections.
 4. **Written for TTS, with natural continuity** — slides and narration share a page plan following the listener's understanding. Allow useful pronouns and connective words; no pronoun quotas, rigid short-sentence limits or mandatory hooks on every slide.
 5. **Plan first, generate once, deliver on success** — decide content, capacity and spoken forms before writing. Generate HTML and script once and export PDF once. No artifact rereading, banned-word scans, screenshot review or rewrite loops. Report execution failures honestly instead of regenerating automatically.
-6. **Self-contained HTML** — 15 built-in components + 5 distinct theme templates, no external skill dependency.
+6. **Self-contained HTML** — 17 built-in components (including 2 figure layouts) + 5 distinct theme templates, no external skill dependency.
 7. **Landscape 4:3 + large readable text + click-to-flip** — all sizes in vw/vh units so HTML and PDF match exactly; no visible buttons.
 8. **Chinese-first** — slides and script default to Chinese (proper nouns stay English); opt into English on request.
 
@@ -179,7 +180,7 @@ content-to-slides/
 
 ## Component library
 
-15 built-in 4:3 components: Title Slide, Content Slide, Card Grid, VS Comparison, Metric Display, Info Box, Quote Block, Key Insight, Closing Slide, Step Flow, Split Text, Icon List, Highlight Banner, Formula Slide, Formula + Explanation.
+17 built-in 4:3 components: Title Slide, Content Slide, Card Grid, VS Comparison, Metric Display, Info Box, Quote Block, Key Insight, Closing Slide, Step Flow, Split Text, Icon List, Highlight Banner, Formula Slide, Formula + Explanation, Figure Split, Figure Full.
 
 Hard layout rule: never run more than 2 consecutive pages of the same component, and use at least 5 different components for decks of 8+ pages. Details in [references/slide-design.md](./references/slide-design.md).
 
@@ -230,9 +231,13 @@ This project **produces slides from scratch**; to make those slides actually "sp
 After this skill finishes, tell your agent:
 
 ```
-Make a video from content-to-slides-output/<project>/presentation.html,
+Make a video from content-to-slides-output/<project>/output.pdf,
 using script.md in the same folder as the notes, Chinese voiceover
 ```
+
+**Prefer `output.pdf` over `presentation.html`.** This skill has already rendered
+the HTML to PDF, images included; uploading the PDF skips the server-side page-by-page
+render (1–5 s per page, and long decks hit the timeout).
 
 You get back the PPTalker watch page. It is private by default — only you can
 watch it while signed in. To share, publish the video from that page.
