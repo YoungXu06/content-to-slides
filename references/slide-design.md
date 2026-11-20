@@ -482,7 +482,6 @@ Content rules:
     <div class="figure-split">
       <figure class="figure-main">
         <img src="images/01-architecture.png" alt="整体架构：网关、路由、推理服务">
-        <figcaption>图 1：整体架构</figcaption>
       </figure>
       <div class="figure-notes">
         <p>网关只做鉴权与限流，不参与模型选择。</p>
@@ -496,7 +495,8 @@ Content rules:
 
 Content rules:
 - `images/...` 必须是本地相对路径（`fetch-images.py` 下载到输出目录），不要写原始 URL
-- 图注（`figcaption`）保留来源的原始说明，不自己编
+- **不加图注、不加出处**：图片直接显示，不写 `figcaption`，不标"图 1"、不标来源或
+  版权。需要说明的东西写进右侧正文或页面标题
 - 右侧 2–4 句，说明图上**看得到**的东西；不引入图上没有的结论
 - 图片所属章节必须与本页主题一致（见 [ingestion.md](ingestion.md) 的图文对应规则）
 
@@ -511,7 +511,6 @@ Content rules:
     <h2>延迟随并发上升，<span class="accent-1">拐点在 32 并发</span></h2>
     <figure class="figure-full">
       <img src="images/02-benchmark.png" alt="延迟与并发的对比曲线">
-      <figcaption>图 2：不同并发下的 P99 延迟</figcaption>
     </figure>
   </div>
 </div>
@@ -521,6 +520,7 @@ Content rules:
 - 只放一张图，不并排第二张
 - 标题写**这张图说明了什么**，不是"某某图"
 - 不留正文段落；需要解释超过一句时改用 Figure Split
+- 同样不加图注、不加出处；图的含义由标题表达
 
 ### 图片组件的通用约束
 
@@ -539,7 +539,6 @@ Content rules:
 .figure-notes { display: flex; flex-direction: column; justify-content: center; gap: 2vh; align-self: center; }
 .figure-split { flex: 1 1 auto; min-height: 0; }
 .figure-full { flex: 0 1 auto; }
-figcaption { font-size: 1.5vw; color: var(--text-secondary); text-align: center; line-height: 1.5; }
 ```
 
 - **`object-fit: contain` 是硬要求**：`cover` 会裁掉图边缘，架构图裁掉一个框就读不懂了。
@@ -554,6 +553,9 @@ figcaption { font-size: 1.5vw; color: var(--text-secondary); text-align: center;
 - `Figure Split` 用 `flex: 1` 撑满标题以下的剩余高度，再由 `align-items: center`
   把图和文字在剩余空间里垂直居中。图片高度受 `max-height: 52vh` 约束，不要为了
   填满容器而放大——留白比裁切安全。
+- **配图不带任何来源标识**：没有 `figcaption`，没有"图 N"，没有出处、作者、版权或
+  原文链接。用户如需外发，会自己在正文里说明。图片本身只承担画面内容，解释放在
+  标题或 `.figure-notes` 里。
 
 ### Inline Math in Any Component
 
