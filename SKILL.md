@@ -32,7 +32,7 @@ description: Turn an article, video, GitHub repository or long-form content into
 - 默认中文，包括页面文案、口播和标签；官方产品名、专名、必要缩写可以保留。用户指定其他语言时遵从。
 - 讲稿是自然的解释，不是压缩摘要。保留主语、条件、因果和必要术语说明，避免电报式碎句。
 - 客观不等于冷淡。可以自然使用“你”“我们”“如果”“但”“所以”“也就是说”，不限制次数；不训导听众，不煽动，不编造事实。
-- 默认不主动使用“反直觉的是”“不是A，而是B”“更狠的是”等包装。具体语言原则和用户示例见 [references/voice.md](references/voice.md)，不重复扩展禁词表。
+- 默认不使用“不是A，而是B”“真正的X是Y”“反直觉的是”“更狠的是”等否定—重定义或夸张包装：整篇最多 1 次，且有依据才用。具体语言原则和改写示例见 [references/voice.md](references/voice.md)，不重复扩展禁词表。
 - 复用现有 15 种组件与 5 套主题。页面字体、间距和内容尺寸使用 vw/vh，禁止 `clamp()` 和固定 px 字号，不通过缩小正文塞入超量内容。
 - 5–10 页是交付范围，不能为了凑页数补造事实；材料不足时在生成前说明。
 
@@ -139,7 +139,9 @@ bash "<skill-dir>/scripts/fetch-github-repo.sh" "<GitHub-URL>" "<输出目录>"
 2. 页序符合听众的理解顺序，术语有解释，过渡有实际内容。
 3. 屏幕文案已按容量预算取舍；页数、主题、组件及编号已经确定。
 4. 讲稿按自然解释展开；不为减字删除必要主语、连接词和范围限定。
-5. HTML 模板、TTS 读法、脚本路径和导出模式已确定。只有明确的小文件要求时，首次导出就选择 `--compact`。
+5. 讲稿没有把「否定—重定义」当骨架：通篇“不是A，而是B”“真正的X是Y”这类句式不超过 1 次，
+   其余段落用具体事实正面说明（规则见 [references/voice.md](references/voice.md) 4.1）。
+6. HTML 模板、TTS 读法、脚本路径和导出模式已确定。只有明确的小文件要求时，首次导出就选择 `--compact`。
 
 若未满足，在此阶段补全规划或报告材料阻塞。满足后简短说明页数和主线，直接生成，不反复确认、不将整份规则输出给用户。
 
@@ -174,6 +176,10 @@ bash "<skill-dir>/scripts/fetch-github-repo.sh" "<GitHub-URL>" "<输出目录>"
 ```
 
 按 voice.md 生成：普通页约 100–180 字为参考，不设短句硬阈值和代词配额。篇幅不足时减少次要分支，不删逻辑。首尾可以正常收束，不要求每页结尾留疑问。
+
+**写的时候就不要用否定—重定义句式。** 每页落笔前确认：本页要讲的事实是什么，直接用
+陈述讲出来；不要先设想「别人以为……其实……」再转折。这是写作约束，不是生成后的检查
+环节——写完不回读、不扫描、不改写，按单次输出协议交付。
 
 只把 `Slide N` 下的口播正文作为该页的 TTS 输入，标题、总时长、分隔线、社媒帖文及标签都不朗读。
 
@@ -219,6 +225,7 @@ bash "<skill-dir>/scripts/export-pdf.sh" "<输出目录>/presentation.html" "<�
 | [scripts/fetch-github-repo.sh](scripts/fetch-github-repo.sh) | 获取仓库分析 | Phase 2 按来源调用 |
 | [scripts/parse_transcript.py](scripts/parse_transcript.py) | VTT/SRT 转文本 | 获取脚本调用 |
 | [scripts/export-pdf.sh](scripts/export-pdf.sh) | 截图合成 PDF，不审稿 | Phase 5 单次调用 |
+| [scripts/check_voice.py](scripts/check_voice.py) | 统计否定—重定义句式用量 | 仅人工抽查 / 排障，不进入默认流程 |
 
 ## 排障边界
 

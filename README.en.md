@@ -71,7 +71,7 @@ The agent will automatically: fetch source and load rules → build a shared pag
 
 1. **Capture the essence, not the wording** — answer "what is this really about" in one sentence first.
 2. **5–10 page hard limit** — fewer than 5 has no substance, more than 10 isn't short-video pacing.
-3. **Objective, natural, non-preachy narration** — explain facts in complete spoken sentences. Avoid rhetorical packaging such as "counterintuitively", "not A but B", and "what's worse is". Remove tangents, not subjects, conditions or causal connections.
+3. **Objective, natural, non-preachy narration** — explain facts in complete spoken sentences. The negation-then-redefinition family ("not A but B", "what X really is, is Y") is capped at one use per script; everywhere else, state the fact directly. Skip hype packaging ("counterintuitively", "what's worse is"). Remove tangents, not subjects, conditions or causal connections.
 4. **Written for TTS, with natural continuity** — slides and narration share a page plan following the listener's understanding. Allow useful pronouns and connective words; no pronoun quotas, rigid short-sentence limits or mandatory hooks on every slide.
 5. **Plan first, generate once, deliver on success** — decide content, capacity and spoken forms before writing. Generate HTML and script once and export PDF once. No artifact rereading, banned-word scans, screenshot review or rewrite loops. Report execution failures honestly instead of regenerating automatically.
 6. **Self-contained HTML** — 15 built-in components + 5 distinct theme templates, no external skill dependency.
@@ -155,7 +155,8 @@ content-to-slides/
     ├── export-pdf.sh                 # PDF export (1440×1080 4:3)
     ├── fetch-youtube-transcript.sh   # Auto YouTube transcript download
     ├── fetch-github-repo.sh          # Auto GitHub repo analysis
-    └── parse_transcript.py           # Subtitle parsing (VTT/SRT → plain text)
+    ├── parse_transcript.py           # Subtitle parsing (VTT/SRT → plain text)
+    └── check_voice.py                # Audit template phrasing (not in the default flow)
 ```
 
 ---
